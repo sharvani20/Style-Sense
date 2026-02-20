@@ -1,0 +1,8 @@
+streamlit
+flask
+groq
+opencv-python
+numpy
+pillow
+python-dotenv
+requests
