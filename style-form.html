@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Styling AI - Upload</title>
+  <link rel="stylesheet" href="style-form.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Styling AI</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="style-form.html" class="active">Try It</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h2>Let's Style You</h2>
+
+      <form id="analyzeForm" class="upload-form">
+        <label class="label">I am:</label>
+        <div class="gender">
+          <label><input type="radio" name="gender" value="Male" checked> Male</label>
+          <label><input type="radio" name="gender" value="Female"> Female</label>
+        </div>
+
+        <div class="uploader">
+          <input id="imageInput" type="file" name="image" accept="image/*" required />
+          <div id="preview" class="preview">No image selected</div>
+        </div>
+
+        <button id="submitBtn" type="submit">Analyze Style</button>
+      </form>
+    </section>
+
+    <section class="results" id="results">
+      <h3>Results</h3>
+      <div id="resultContent">No results yet.</div>
+    </section>
+  </main>
+
+  <footer class="footer">&copy; 2026 Styling AI</footer>
+
+  <script>
+    const form = document.getElementById('analyzeForm');
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const results = document.getElementById('resultContent');
+    const submitBtn = document.getElementById('submitBtn');
+
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      if (!file) { preview.textContent = 'No image selected'; return; }
+      const url = URL.createObjectURL(file);
+      preview.innerHTML = `<img src="${url}" alt="preview"/>`;
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      results.innerHTML = '';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Analyzing...';
+
+      const data = new FormData(form);
+      try {
+        const resp = await fetch('/analyze', { method: 'POST', body: data });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          results.innerHTML = `<div class="error">Error: ${err.error || resp.statusText}</div>`;
+          return;
+        }
+        const json = await resp.json();
+
+        // render results
+        let html = `<p><strong>Detected skin tone:</strong> ${json.skin_tone}</p>`;
+        html += `<h4>Recommendations</h4><pre>${json.recommendations}</pre>`;
+        if (json.shopping_links) {
+          html += '<h4>Shop</h4><ul>';
+          for (const [store, link] of Object.entries(json.shopping_links)) {
+            html += `<li><a href="${link}" target="_blank">Shop on ${store}</a></li>`;
+          }
+          html += '</ul>';
+        }
+
+        // build link to result color page
+        // try to extract RGB from the returned skin_tone string (format: "Label (R=...,G=...,B=...)")
+        let skin = json.skin_tone || '';
+        const m = skin.match(/R=(\d+),G=(\d+),B=(\d+)/);
+        let rgbParam = '';
+        if (m) rgbParam = `${m[1]},${m[2]},${m[3]}`;
+        const href = `result.html?skin=${encodeURIComponent(skin)}&rgb=${encodeURIComponent(rgbParam)}`;
+        html += `<p style="margin-top:12px"><a href="${href}" target="_blank"><button style="padding:8px 12px;border-radius:6px;background:#e91e63;color:#fff;border:none;cursor:pointer">View Color Page</button></a></p>`;
+
+        results.innerHTML = html;
+      } catch (err) {
+        results.innerHTML = `<div class="error">Connection error: ${err}</div>`;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Analyze Style';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+streamlit
+flask
+groq
+opencv-python
+numpy
+pillow
+python-dotenv
+requests
+flask-cors
+
+# Optional: for gender verification (install manually if needed)
+# deepface
+# tensorflow-cpu

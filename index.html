@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling AI - Your Personal AI Fashion Stylist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style-form.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+    <nav class="bg-brand-pink text-white py-4 px-8 flex justify-between items-center shadow-md">
+        <div class="text-2xl font-bold flex items-center gap-2">
+            <span>🪄 Styling AI</span>
+        </div>
+        <div class="space-x-6 text-sm font-medium">
+            <a href="#" onclick="showSection('landing-page')" class="hover:text-pink-200">Home</a> 
+            <a href="#" onclick="goToFeatures()" class="hover:text-pink-200">Features</a> 
+            <a href="#" onclick="showSection('upload-page')" class="hover:text-pink-200">Try It</a> 
+            <a href="#" onclick="showSection('about-page')" class="hover:text-pink-200">About</a>
+        </div>
+    </nav>
+
+    <div id="app" class="min-h-screen">
+        
+        <section id="landing-page" class="flex flex-col items-center pt-16 px-4">
+            <div class="bg-brand-pink text-white rounded-xl shadow-xl p-12 w-full max-w-5xl flex justify-between items-center">
+                <div class="max-w-lg">
+                    <h1 class="text-5xl font-extrabold leading-tight mb-4">Your Personal AI<br>Fashion Stylist</h1> 
+                    <p class="text-lg mb-8 opacity-90">Upload your photo and get personalized styling recommendations based on your skin tone</p> 
+                    <button onclick="showSection('upload-page')" class="bg-yellow-400 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-300 transition">Get Started</button> 
+                </div>
+                <div class="w-72 h-64 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/30 hidden md:block">
+                    <img src="styleimge.jpeg" class="w-72 h-64 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/30 hidden md:block">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mt-12 w-full mb-12">
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-brand-pink text-3xl mb-3">📸</div>
+                    <h3 class="font-bold mb-2">Instant Analysis</h3> 
+                    <p class="text-sm text-gray-500">Upload a photo and get AI powered styling recommendations in seconds</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-brand-pink text-3xl mb-3">🎨</div>
+                    <h3 class="font-bold mb-2">Color Matching</h3> 
+                    <p class="text-sm text-gray-500">Get recommendations perfectly matched to your skin tone and complexion</p> 
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-brand-pink text-3xl mb-3">🛍️</div>
+                    <h3 class="font-bold mb-2">Product Links</h3> 
+                    <p class="text-sm text-gray-500">Direct shopping links to purchase recommended items from top brands</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-brand-pink text-3xl mb-3">⭐</div>
+                    <h3 class="font-bold mb-2">Professional Tips</h3> 
+                    <p class="text-sm text-gray-500">Learn hairstyle, accessories, and styling tips from fashion experts</p> 
+                </div>
+            </div>
+        </section>
+
+        <section id="upload-page" class="hidden flex flex-col items-center pt-16 px-4">
+            <h2 class="text-3xl font-bold mb-8">Step 1: Your Profile</h2> 
+            <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl text-center">
+                <form onsubmit="submitForm(event)">
+                    <div class="mb-8">
+                        <label class="block font-bold mb-4 text-xl">I am:</label>
+                        <div class="flex justify-center gap-8">
+                            <button type="button" onclick="selectGender('Male', this)" class="gender-btn w-32 p-4 border-2 border-gray-100 rounded-2xl hover:border-brand-pink transition-all">👨 Male</button>
+                            <button type="button" onclick="selectGender('Female', this)" class="gender-btn w-32 p-4 border-2 border-gray-100 rounded-2xl hover:border-brand-pink transition-all">👩 Female</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-8 text-center">
+                        <label class="block font-bold mb-4 text-xl">Age Group:</label>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <button type="button" onclick="selectAge('0-9', this)" class="age-btn px-6 py-2 border rounded-full text-sm">0-9</button>
+                            <button type="button" onclick="selectAge('10-15', this)" class="age-btn px-6 py-2 border rounded-full text-sm">10-15</button>
+                            <button type="button" onclick="selectAge('16-25', this)" class="age-btn px-6 py-2 border rounded-full text-sm">16-25</button>
+                            <button type="button" onclick="selectAge('25+', this)" class="age-btn px-6 py-2 border rounded-full text-sm">25+</button>
+                        </div>
+                    </div>
+
+                    <div class="border-4 border-dashed border-pink-100 rounded-xl p-10 bg-pink-50 hover:bg-pink-100 transition cursor-pointer mb-8" onclick="document.getElementById('photoInput').click()">
+                        <div class="text-4xl mb-4">📸</div>
+                        <h3 class="text-xl font-bold text-gray-700">Choose a Photo</h3> 
+                        <p class="text-xs text-gray-400 mt-2">Supported: PNG, JPEG, WEBP</p>
+                        <div id="preview" class="mt-4 hidden">
+                            <img id="previewImg" src="" alt="Preview" class="mx-auto max-h-40 rounded-lg shadow-md">
+                        </div>
+                    </div>
+                    <input type="file" id="photoInput" class="hidden" accept="image/*" onchange="showPreview(event)">
+
+                    <button type="submit" class="bg-brand-pink text-white py-4 px-12 rounded-full font-bold shadow-lg hover:scale-105 transition text-lg">Analyze My Style</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="loading-page" class="hidden flex flex-col items-center justify-center pt-32">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-brand-pink mb-4"></div>
+            <h2 class="text-2xl font-bold text-gray-700">Analyzing your style...</h2> 
+        </section>
+
+        <section id="results-page" class="hidden flex flex-col items-center py-12 px-4 w-full">
+            <div class="max-w-5xl w-full">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold">Your Personalized Style Profile</h2> 
+                    <button onclick="showSection('upload-page')" class="bg-pink-400 text-white px-4 py-2 rounded shadow hover:bg-pink-500">↻ Try Again</button> 
+                </div>
+
+                <div id="colorBar" class="bg-white rounded-xl shadow p-6 flex items-center gap-6 mb-8 border-l-8 transition-all">
+                    <div id="skinCircle" class="w-16 h-16 rounded-full shadow-inner"></div>
+                    <div>
+                        <h3 class="text-xl font-bold">Skin Tone Analysis</h3> 
+                        <p id="skinLabel" class="text-gray-500">Detecting...</p> 
+                        <p id="genderDetected" class="text-xs text-gray-500 mt-1"></p> 
+                        <p id="genderDetected" class="text-sm text-gray-400"></p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow overflow-hidden mb-8">
+                    <div class="bg-brand-pink text-white px-6 py-3 font-bold">STYLING RECOMMENDATIONS</div> 
+                    <div class="p-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">👔 SUGGESTED OUTFIT</h4>
+                                <p id="outfitText" class="text-gray-600 text-sm leading-relaxed mb-6"></p>
+
+                                <h4 class="font-bold text-gray-800 mb-2">💇 HAIRSTYLE</h4>
+                                <p id="hairstyleText" class="text-sm text-gray-600 leading-relaxed"></p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 mb-2">🕶️ ACCESSORIES</h4>
+                                <ul id="accessoriesList" class="text-sm text-gray-600 space-y-1 list-disc pl-4 mb-6"></ul>
+
+                                <h4 class="font-bold text-gray-800 mb-2">🎨 COLOR PALETTE</h4>
+                                <p id="paletteText" class="text-xs text-gray-500 mb-3 italic"></p>
+                                <div id="paletteDisplay" class="flex gap-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mb-6">Shop Your Style</h2> 
+                <div id="shoppingGrid" class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12"></div>
+            </div>
+        </section>
+
+        <!-- about page hidden by default -->
+        <section id="about-page" class="hidden flex flex-col items-center pt-16 px-4">
+            <div class="max-w-3xl bg-white rounded-xl shadow-lg p-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">About Styling AI</h2>
+                <p class="text-gray-600 mb-4">Styling AI is a personal fashion assistant built for a hackathon demo. Upload a clear photo and receive customized recommendations based on your skin tone, age, and gender. The backend uses simple ML heuristics and optional models to analyze faces and suggest outfits, colors, and accessories.</p>
+               
+                <button onclick="showSection('landing-page')" class="mt-6 bg-brand-pink text-white px-6 py-3 rounded-full hover:bg-pink-600 transition">Back to Home</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let userData = { gender: '', age: '' };
+
+        function showSection(sectionId) {
+            const sections = ['landing-page', 'upload-page', 'loading-page', 'results-page', 'about-page'];
+            sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        function selectGender(gender, btn) {
+            userData.gender = gender;
+            document.querySelectorAll('.gender-btn').forEach(b => b.classList.replace('border-brand-pink', 'border-gray-100'));
+            btn.classList.add('border-brand-pink');
+        }
+
+        // smooth scroll to features section inside landing page
+        function goToFeatures() {
+            showSection('landing-page');
+            const grid = document.querySelector('#landing-page .grid');
+            if (grid) {
+                setTimeout(() => grid.scrollIntoView({ behavior: 'smooth' }), 100);
+            }
+        }
+
+        function selectAge(age, btn) {
+            userData.age = age;
+            document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('bg-brand-pink','text-white'));
+            btn.classList.add('bg-brand-pink','text-white');
+        }
+
+        function showPreview(event) {
+            const input = event.target;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('preview').classList.remove('hidden');
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        async function submitForm(event) {
+            event.preventDefault();
+            if (!userData.gender || !userData.age) return alert('Please complete your profile');
+
+            const fileInput = document.getElementById('photoInput');
+            if (!fileInput.files || fileInput.files.length === 0) return alert('Please upload a photo');
+
+            const fd = new FormData();
+            fd.append('gender', userData.gender);
+            fd.append('age', userData.age);
+            fd.append('image', fileInput.files[0]);
+            // no override behaviour; mismatch will simply alert and stop
+            // (forceAnalyze flag removed)
+
+            try {
+                const resp = await fetch('/analyze', { method: 'POST', body: fd });
+                const errData = await resp.json().catch(() => ({}));
+                if (!resp.ok) {
+                    // Check if it's a gender mismatch error
+                    if (errData.error === 'gender_mismatch') {
+                        alert(`Photo appears to be ${errData.detected_gender} while you selected ${errData.selected_gender}.\nPlease upload a ${errData.selected_gender} photo.`);
+                        return; // remain on upload page
+                    }
+                    throw new Error(errData.message || errData.error || 'Server error ' + resp.status);
+                }
+                // successful analysis, now show loading briefly then results
+                showSection('loading-page');
+                const data = errData; // already parsed JSON
+                applyResultData(data);
+                showSection('results-page');
+            } catch (err) {
+                showSection('upload-page');
+                console.error('Analyze request failed:', err);
+                // graceful fallback to demo data so UI still works offline
+                alert('Error: ' + err.message + '\n\nMake sure backend is running on http://127.0.0.1:5000.');
+                const mockData = {
+                    skin_tone: "Medium - Detected",
+                    outfit_suggestion: "A navy blue suit with a white dress shirt, paired with dark brown chinos and loafers.",
+                    hairstyle: "Fade with Pompadour - Sharp contrast for medium skin tones.",
+                    accessories: ["Leather Watch", "Silver Necklace", "Brown Leather Belt"],
+                    colors: ["#000080", "#FFFFFF", "#D2B48C"],
+                    palette_names: "Navy, White, Tan",
+                    products: [
+                        { name: 'Royal Blue Shirt', img: '👕' },
+                        { name: 'Deep Purple Formal', img: '👔' },
+                        { name: 'Emerald Green Shirt', img: '👕' },
+                        { name: 'Black Chelsea Boots', img: '👢' },
+                        { name: 'Burgundy Loafers', img: '👞' }
+                    ]
+                };
+                applyResultData(mockData);
+                showSection('results-page');
+            }
+        }
+
+        function applyResultData(data) {
+            // Support different field names returned by various backend versions
+            const skin = data.skin_tone || data.skinTone || data.skin || 'Unknown';
+            const outfit = data.outfit_suggestion || data.outfit || data.outfitSuggestion || '';
+            const hairstyle = data.hairstyle || data.hair || '';
+            const accessories = data.accessories || data.accessory_list || [];
+            const colors = data.colors || data.palette || [];
+            const palette_names = data.palette_names || data.paletteNames || data.palette_label || '';
+            const products = data.products || data.shopping || [];
+
+            document.getElementById('skinLabel').innerText = skin;
+            document.getElementById('genderDetected').innerText = data.detected_gender ? `Detected as ${data.detected_gender} (conf ${data.confidence || 'n/a'})` : '';
+            document.getElementById('outfitText').innerText = outfit;
+            document.getElementById('hairstyleText').innerText = hairstyle;
+            document.getElementById('paletteText').innerText = palette_names;
+
+            document.getElementById('accessoriesList').innerHTML = accessories.map(a => `<li>${a}</li>`).join('');
+            document.getElementById('paletteDisplay').innerHTML = colors.map(c => `<div class="w-8 h-8 rounded shadow" style="background:${c}"></div>`).join('');
+
+            document.getElementById('shoppingGrid').innerHTML = products.map(p => `
+                <div class="bg-white p-4 rounded-xl shadow text-center flex flex-col items-center">
+                    <div class="text-3xl mb-3">${p.img || '🛍️'}</div>
+                    <h4 class="font-bold text-xs mb-3 h-8">${p.name || p.title || 'Product'}</h4>
+                    <a href="${p.url || '#'}" target="_blank" rel="noopener noreferrer" class="bg-pink-400 text-white px-3 py-1 rounded text-xs w-full inline-block hover:bg-pink-500 text-center">🛒 Shop</a>
+                </div>
+            `).join('');
+
+            const hex = (colors && colors[0]) || '#D2B48C';
+            document.getElementById('skinCircle').style.backgroundColor = hex;
+            // colorBar uses border-left to highlight
+            document.getElementById('colorBar').style.borderLeftColor = hex;
+        }
+    </script>
+</body>
+</html>

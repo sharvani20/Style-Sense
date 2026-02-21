@@ -1,0 +1,58 @@
+/* Variables and Base Colors */
+:root {
+    --brand-pink: #D65A84;
+    --brand-yellow: #FACC15;
+}
+
+.bg-brand-pink { 
+    background-color: var(--brand-pink); 
+}
+
+.text-brand-pink { 
+    color: var(--brand-pink); 
+}
+
+.border-brand-pink {
+    border-color: var(--brand-pink) !important;
+}
+
+/* Step 1: Your Profile Specifics */
+.gender-btn {
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.gender-btn:hover {
+    transform: translateY(-2px);
+}
+
+.age-btn {
+    background-color: white;
+    border-color: #e5e7eb;
+    color: #4b5563;
+    transition: all 0.2s;
+}
+
+.age-btn:hover {
+    border-color: var(--brand-pink);
+    color: var(--brand-pink);
+}
+
+/* Results Formatting */
+.result-box-header {
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+}
+
+#shoppingGrid div {
+    transition: transform 0.2s ease-in-out;
+}
+
+#shoppingGrid div:hover {
+    transform: translateY(-4px);
+}
+
+/* Transition for Analysis Header */
+#colorBar {
+    transition: border-left-color 0.5s ease;
+}

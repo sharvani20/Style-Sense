@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Styling AI</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+
+<header class="bg-[#d85a86] text-white py-4 px-8 flex justify-between items-center shadow-sm">
+    <h1 class="text-2xl font-bold flex items-center gap-2">🪄 Styling AI</h1>
+    <nav class="space-x-8 text-sm font-semibold">
+        <a href="#" onclick="resetView(); return false;" class="hover:opacity-80">Home</a>
+        <a href="#" class="hover:opacity-80">Features</a>
+        <a href="#" class="hover:opacity-80">About</a>
+    </nav>
+</header>
+
+<main id="main-content">
+    <!-- LANDING VIEW -->
+    <section id="landing-view" class="flex flex-col items-center pt-12 px-4">
+        <div class="bg-brand-pink text-white rounded-3xl shadow-2xl p-16 w-full max-w-6xl flex justify-between items-center relative overflow-hidden">
+            <div class="max-w-xl z-10">
+                <h2 class="text-6xl font-extrabold leading-tight mb-6">Your Personal AI <br> Fashion Stylist</h2>
+                <p class="text-xl mb-10 opacity-90">Upload your photo and get personalized styling recommendations based on your skin tone</p>
+                <button onclick="showForm()" class="bg-[#eeb454] text-gray-900 font-bold py-4 px-10 rounded-2xl shadow-lg hover:scale-105 transition-transform">Get Started</button>
+            </div>
+            <div class="w-80 h-80 bg-white/10 rounded-[3rem] backdrop-blur-md border border-white/20 hidden md:block rotate-12"></div>
+        </div>
+    </section>
+
+    <!-- FORM VIEW -->
+    <section id="form-view" class="hidden max-w-2xl mx-auto mt-12 px-4">
+        <div class="panel">
+            <h2 class="text-2xl font-bold mb-6 text-center">Tell Us About Yourself</h2>
+            <form onsubmit="submitForm(event)">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block font-bold mb-3">I am:</label>
+                        <div class="flex gap-4">
+                            <button type="button" onclick="selectGender('Male', this)" class="gender-btn flex-1 p-3 border-2 border-gray-300 rounded-xl hover:border-[#d85a86]">♂ Male</button>
+                            <button type="button" onclick="selectGender('Female', this)" class="gender-btn flex-1 p-3 border-2 border-gray-300 rounded-xl hover:border-[#d85a86]">♀ Female</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-3">Age Group:</label>
+                        <select id="age-group" class="w-full p-3 border-2 border-gray-300 rounded-xl bg-white focus:border-[#d85a86] outline-none">
+                            <option value="0-9">0 - 9 years</option>
+                            <option value="10-15">10 - 15 years</option>
+                            <option value="16-25" selected>16 - 25 years</option>
+                            <option value="25-above">25 years and above</option>
+                        </select>
+                    </div>
+                    <div class="uploader">
+                        <input type="file" id="photoInput" class="hidden" accept="image/*" onchange="showPreview(this)">
+                        <label for="photoInput" class="cursor-pointer">
+                            <div class="text-[#d85a86] text-4xl mb-2">📷</div>
+                            <p class="font-bold">Click to Upload Photo</p>
+                        </label>
+                    </div>
+                    <div id="preview" class="hidden">
+                        <img id="previewImg" src="" alt="Preview" class="w-full max-h-48 object-cover rounded-lg mb-3">
+                    </div>
+                    <button type="submit" class="w-full bg-brand-pink text-white py-4 rounded-xl font-bold shadow-lg">Analyze My Style</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- RESULTS VIEW -->
+    <section id="results-view" class="hidden">
+        <div id="colorBar" class="color-bar" style="background:#d9d9d9">Skin Tone Analysis</div>
+        <div class="container mx-auto px-4 -mt-20 relative z-10">
+            <div class="panel">
+                <div class="flex items-center gap-8 mb-8 border-b pb-8">
+                    <div id="skinCircle" class="skin-circle"></div>
+                    <div>
+                        <h1 id="skinLabel" class="text-3xl font-bold">Skin Tone</h1>
+                        <p id="profileTag" class="text-[#d85a86] font-bold mt-1 uppercase text-sm"></p>
+                    </div>
+                    <button onclick="resetView()" class="ml-auto bg-gray-100 p-2 rounded-full hover:bg-gray-200">🔄</button>
+                </div>
+
+                <div id="errorBox" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded mb-6"></div>
+
+                <div id="recommendationText" class="result-box mb-6"></div>
+
+                <div class="mt-8">
+                    <h4 class="text-[#d85a86] font-bold text-xs uppercase mb-4">🛍️ Shop Now</h4>
+                    <a id="amazonLink" href="#" target="_blank" class="inline-block w-full bg-[#FF9900] text-white py-3 px-6 rounded-lg font-bold text-center hover:bg-[#FF8000]">
+                        Open Shopping Link
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-[#d85a86] text-white text-center py-6">&copy; 2026 Styling AI</footer>
+
+<script>
+    let userData = { gender: '', age: '' };
+
+    function showForm() {
+        document.getElementById('landing-view').classList.add('hidden');
+        document.getElementById('form-view').classList.remove('hidden');
+    }
+
+    function resetView() {
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('results-view').classList.add('hidden');
+        document.getElementById('landing-view').classList.remove('hidden');
+    }
+
+    function selectGender(gender, btn) {
+        userData.gender = gender;
+        document.querySelectorAll('.gender-btn').forEach(b => {
+            b.classList.remove('border-[#d85a86]', 'bg-pink-50');
+        });
+        btn.classList.add('border-[#d85a86]', 'bg-pink-50');
+    }
+
+    function showPreview(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('preview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function submitForm(event) {
+        event.preventDefault();
+
+        if (!userData.gender) {
+            alert('Please select your gender');
+            return;
+        }
+
+        const fileInput = document.getElementById('photoInput');
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('Please upload a photo');
+            return;
+        }
+
+        userData.age = document.getElementById('age-group').value;
+
+        const formData = new FormData();
+        formData.append('gender', userData.gender);
+        formData.append('age', userData.age);
+        formData.append('image', fileInput.files[0]);
+
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('results-view').classList.remove('hidden');
+        document.getElementById('colorBar').innerHTML = '⏳ Analyzing...';
+
+        fetch('/analyze', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                document.getElementById('errorBox').innerHTML = '<strong>⚠️ Warning:</strong> ' + data.error;
+                document.getElementById('errorBox').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('errorBox').classList.add('hidden');
+            document.getElementById('skinLabel').innerText = data.skin_tone;
+            document.getElementById('profileTag').innerText = `${data.gender} • Age ${data.age_group}`;
+            document.getElementById('recommendationText').innerText = data.recommendations;
+
+            // Set colors
+            const hex = extractRGBColor(data.skin_tone);
+            document.getElementById('skinCircle').style.background = hex;
+            document.getElementById('colorBar').style.background = hex;
+            document.getElementById('colorBar').innerHTML = data.skin_tone;
+
+            // Set Amazon link
+            if (data.amazon_link) {
+                document.getElementById('amazonLink').href = data.amazon_link.url;
+                document.getElementById('amazonLink').textContent = '🛍️ ' + data.amazon_link.name;
+            }
+        })
+        .catch(error => {
+            document.getElementById('errorBox').innerHTML = '<strong>❌ Error:</strong> ' + error.message;
+            document.getElementById('errorBox').classList.remove('hidden');
+        });
+    }
+
+    function extractRGBColor(rgbStr) {
+        const match = rgbStr.match(/R=(\d+),G=(\d+),B=(\d+)/i);
+        if (match) {
+            const r = parseInt(match[1]);
+            const g = parseInt(match[2]);
+            const b = parseInt(match[3]);
+            return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+        }
+        return '#d9d9d9';
+    }
+</script>
+
+</body>
+</html>
